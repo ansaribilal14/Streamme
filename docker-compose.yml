@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:4000/api
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./database:/app/database
+    environment:
+      - CS3_BRIDGE_URL=http://cs3bridge:5000
+      - TMDB_API_KEY=${TMDB_API_KEY:-}
+      - OMDB_API_KEY=${OMDB_API_KEY:-}
+      - OPENSUBTITLES_API_KEY=${OPENSUBTITLES_API_KEY:-}
+      - DB_PATH=/app/database/streamhub.db
+      - PORT=4000
+      - HOST=0.0.0.0
+    depends_on:
+      - cs3bridge
+    restart: unless-stopped
+
+  cs3bridge:
+    build: ./cs3-bridge
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./cs3-bridge/extensions:/app/extensions
+    environment:
+      - PORT=5000
+      - HOST=0.0.0.0
+      - EXTENSIONS_DIR=/app/extensions
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
+    profiles: ["prod"]

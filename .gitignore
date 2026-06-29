@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Database
+database/*.db
+database/*.db-journal
+database/*.db-wal
+database/*.db-shm
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Android build artifacts
+android/
+android-sdk/
+*.apk
+*.keystore
+!download/*.apk
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Bridge extensions (keep .cs3 markers but ignore downloaded binaries)
+cs3-bridge/extensions/*.jar

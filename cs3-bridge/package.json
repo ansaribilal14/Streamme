@@ -1,0 +1,17 @@
+{
+  "name": "streamhub-cs3-bridge",
+  "version": "1.0.0",
+  "description": "CS3 Bridge - Provider abstraction service (CloudStream-compatible API)",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.28.1",
+    "@fastify/cors": "^9.0.1",
+    "pino": "^9.4.0",
+    "pino-pretty": "^11.2.2"
+  }
+}

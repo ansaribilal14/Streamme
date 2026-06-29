@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0A0A0A;
+  --surface: #141414;
+  --surface-elevated: #1F1F1F;
+  --border: #2A2A2A;
+  --accent: #E50914;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A3A3A3;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+/* AMOLED theme override */
+body.theme-amoled {
+  --bg: #000000;
+  --surface: #0A0A0A;
+  --surface-elevated: #141414;
+}
+
+/* Navy theme override */
+body.theme-navy {
+  --bg: #0A0E1A;
+  --surface: #111729;
+  --surface-elevated: #1A2238;
+  --border: #2A3454;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3A3A3A; }
+
+/* Hide scrollbar for horizontal rows */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Shimmer loading effect */
+.shimmer {
+  background: linear-gradient(90deg, #141414 25%, #1F1F1F 50%, #141414 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Hero gradient overlay */
+.hero-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(10,10,10,0) 0%,
+    rgba(10,10,10,0.2) 30%,
+    rgba(10,10,10,0.7) 70%,
+    rgba(10,10,10,1) 100%
+  );
+}
+
+.hero-gradient-left {
+  background: linear-gradient(
+    to right,
+    rgba(10,10,10,0.9) 0%,
+    rgba(10,10,10,0.6) 30%,
+    rgba(10,10,10,0) 60%
+  );
+}
+
+/* Smooth hover lift on cards */
+.card-hover {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+.card-hover:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+}
+
+/* Video.js custom dark theme */
+.video-js {
+  background-color: #000 !important;
+}
+.video-js .vjs-control-bar {
+  background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.3)) !important;
+}
+.video-js .vjs-big-play-button {
+  background-color: rgba(229, 9, 20, 0.85) !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 80px !important;
+  height: 80px !important;
+  line-height: 80px !important;
+  top: 50% !important;
+  left: 50% !important;
+  margin-top: -40px !important;
+  margin-left: -40px !important;
+}
+.video-js .vjs-big-play-button:hover {
+  background-color: rgba(184, 29, 36, 0.95) !important;
+}
+
+/* Hide focus outline but keep accessibility */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Aspect ratio helpers */
+.aspect-poster { aspect-ratio: 2/3; }
+.aspect-backdrop { aspect-ratio: 16/9; }
+
+/* Safe area for iPad/mobile notches */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top { padding-top: env(safe-area-inset-top); }
