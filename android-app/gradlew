@@ -1,0 +1,4 @@
+#!/bin/sh
+# Simple gradlew that uses the local Gradle install
+DIR="$(cd "$(dirname "$0")" && pwd)"
+exec /tmp/gradle-8.7/bin/gradle "$@"

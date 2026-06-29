@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StreamHub</string>
+    <string name="default_server_url">http://10.0.2.2:3000</string>
+    <string name="settings">Settings</string>
+    <string name="reload">Reload</string>
+    <string name="server_url">Server URL</string>
+    <string name="server_url_hint">http://192.168.x.x:3000</string>
+    <string name="save">Save</string>
+    <string name="loading">Loading StreamHub…</string>
+    <string name="error_title">Cannot reach server</string>
+    <string name="error_message">Make sure the StreamHub backend is running and your device is on the same network.</string>
+    <string name="retry">Retry</string>
+    <string name="open_settings">Settings</string>
+</resources>
