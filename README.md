@@ -6,19 +6,37 @@ StreamHub is a personal, self-hosted video streaming Progressive Web App that ru
 
 ## Quick Start
 
-### Option A — Docker (recommended for self-hosting)
+### Option A — Docker (local dev)
 
 ```bash
 git clone https://github.com/ansaribilal14/Streamme.git
 cd Streamme
 cp .env.example .env       # fill in TMDB / OpenSubtitles keys (optional)
-docker compose up -d
+docker compose -f docker-compose.dev.yml up -d --build
 ```
 
 Open `http://localhost:3000` (or `http://YOUR_SERVER_IP:3000`).
 Set the admin PIN on first visit to `/admin`.
 
-### Option B — Run each service directly (dev mode)
+### Option B — Production on Oracle Cloud / VPS (recommended)
+
+One-shot deploy on a fresh Ubuntu 22.04 / 24.04 VM:
+
+```bash
+ssh ubuntu@<your-vm-public-ip>
+
+# Option 1: one-shot curl pipe
+curl -fsSL https://raw.githubusercontent.com/ansaribilal14/Streamme/main/deploy/oracle-deploy.sh | bash
+
+# Option 2: clone first, then run
+git clone https://github.com/ansaribilal14/Streamme.git
+cd Streamme
+bash deploy/oracle-deploy.sh
+```
+
+The script installs Docker, opens the firewall, builds all 3 services, and starts Nginx on ports 80/443. Full step-by-step guide in [`deploy/README.md`](./deploy/README.md).
+
+### Option C — Run each service directly (dev mode, no Docker)
 
 ```bash
 # Terminal 1 — CS3 Bridge (port 5000)

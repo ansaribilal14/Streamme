@@ -1,34 +1,32 @@
 version: "3.9"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# StreamHub — Production Docker Compose
+# StreamHub — Development Docker Compose
 #
-# Only nginx (ports 80/443) is exposed publicly.
-# Frontend, backend, and cs3-bridge communicate over the internal Docker network.
+# Use this for local development. All ports are exposed so you can hit each
+# service directly for debugging.
+#
+#   docker compose -f docker-compose.dev.yml up -d --build
 # ─────────────────────────────────────────────────────────────────────────────
 
 services:
   frontend:
     build: ./frontend
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
     environment:
-      # Relative URL — Nginx proxies /api/* to the backend container.
-      # The browser only ever talks to Nginx, never to backend directly.
-      - NEXT_PUBLIC_API_URL=/api
+      - NEXT_PUBLIC_API_URL=http://localhost:4000/api
       - NODE_ENV=production
       - PORT=3000
       - HOSTNAME=0.0.0.0
     depends_on:
       - backend
     restart: unless-stopped
-    networks:
-      - streamhub-net
 
   backend:
     build: ./backend
-    expose:
-      - "4000"
+    ports:
+      - "4000:4000"
     volumes:
       - ./database:/app/database
     environment:
@@ -40,46 +38,18 @@ services:
       - DB_PATH=/app/database/streamhub.db
       - PORT=4000
       - HOST=0.0.0.0
-      - NODE_ENV=production
-      - LOG_LEVEL=info
     depends_on:
       - cs3bridge
     restart: unless-stopped
-    networks:
-      - streamhub-net
 
   cs3bridge:
     build: ./cs3-bridge
-    expose:
-      - "5000"
+    ports:
+      - "5000:5000"
     volumes:
       - ./cs3-bridge/extensions:/app/extensions
     environment:
       - PORT=5000
       - HOST=0.0.0.0
       - EXTENSIONS_DIR=/app/extensions
-      - NODE_ENV=production
     restart: unless-stopped
-    networks:
-      - streamhub-net
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-    depends_on:
-      - frontend
-      - backend
-    restart: unless-stopped
-    networks:
-      - streamhub-net
-    profiles: ["prod"]
-
-networks:
-  streamhub-net:
-    driver: bridge
